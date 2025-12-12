@@ -20,11 +20,15 @@ func _process(delta: float) -> void:
 		print("Publish count: " + str(count))
 		self.publish_string("/string_topic", str(count))
 		var joy = RosJoy.new()
+		var header = RosHeader.new()
+		header.frame_id = "test"
+		joy.header = header
 		joy.axes = [0.0]
 		joy.buttons = [0, 0]
 		self.publish_joy("/joy", joy)
 		
 		var transfrom = RosTransformStamped.new()
+		transfrom.header = header
 		transfrom.child_frame_id = "test"
 		
 		self.publish_transform_stamped("/tf", transfrom)

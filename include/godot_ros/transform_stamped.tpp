@@ -47,9 +47,7 @@ inline void RosNode::publish<GodotTransformStampedType>(
     // Header
     Ref<RosHeader> godot_header = data->get_header();
     if (godot_header.is_valid()) {
-        msg.header.frame_id = godot_header->get_frame_id().utf8().get_data();
-        msg.header.stamp.sec = godot_header->get_seconds();
-        msg.header.stamp.nanosec = godot_header->get_nanoseconds();
+        godot_header->set_ros_header(msg.header, *m_node);
     }
 
     // Child Frame ID

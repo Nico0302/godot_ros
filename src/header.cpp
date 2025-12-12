@@ -36,6 +36,16 @@ uint32_t RosHeader::get_nanoseconds() const {
     return nanoseconds;
 }
 
+void RosHeader::set_ros_header(std_msgs::msg::Header &p_header, const rclcpp::Node &p_node) const {
+    p_header.frame_id = frame_id.utf8().get_data();
+    if (seconds != 0 && nanoseconds != 0) {
+        p_header.stamp.sec = seconds;
+        p_header.stamp.nanosec = nanoseconds;
+    } else {
+        p_header.stamp = p_node.get_clock()->now();
+    }
+}
+
 void RosHeader::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_frame_id", "frame_id"), &RosHeader::set_frame_id);
     ClassDB::bind_method(D_METHOD("get_frame_id"), &RosHeader::get_frame_id);

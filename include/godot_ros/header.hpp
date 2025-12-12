@@ -3,6 +3,9 @@
 
 #include <godot_cpp/classes/resource.hpp>
 
+#include "std_msgs/msg/header.hpp"
+#include "rclcpp/node.hpp"
+
 namespace godot {
 
 class RosHeader : public Resource {
@@ -28,6 +31,8 @@ public:
 
     void set_nanoseconds(uint32_t p_nanoseconds);
     uint32_t get_nanoseconds() const;
+
+    void set_ros_header(std_msgs::msg::Header &p_header, const rclcpp::Node &p_node) const;
 };
 
 } // namespace godot
