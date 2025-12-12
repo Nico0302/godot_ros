@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://dd1dlijjxmhu"]
+
+[ext_resource type="Script" uid="uid://ctkm2hubkdq4u" path="res://openxr/openxr.gd" id="1_onf03"]
+[ext_resource type="Script" uid="uid://cyml1afcbtvq1" path="res://openxr/ros_node.gd" id="1_uiw5l"]
+[ext_resource type="Script" uid="uid://c06q4lxe7sxvm" path="res://openxr/controller.gd" id="2_5gmwh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_onf03"]
+
+[sub_resource type="Sky" id="Sky_u63oh"]
+sky_material = SubResource("ProceduralSkyMaterial_onf03")
+
+[sub_resource type="Environment" id="Environment_mkij1"]
+background_mode = 2
+sky = SubResource("Sky_u63oh")
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_onf03")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D" node_paths=PackedStringArray("ros_node")]
+tracker = &"left_hand"
+script = ExtResource("2_5gmwh")
+ros_node = NodePath("../../RosNode")
+frame_id = "left_hand"
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D" node_paths=PackedStringArray("ros_node")]
+tracker = &"right_hand"
+script = ExtResource("2_5gmwh")
+ros_node = NodePath("../../RosNode")
+frame_id = "right_hand"
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="OpenXRRenderModelManager" type="OpenXRRenderModelManager" parent="XROrigin3D"]
+
+[node name="RosNode" type="RosNode" parent="."]
+script = ExtResource("1_uiw5l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mkij1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
