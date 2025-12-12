@@ -25,3 +25,10 @@ func publish_transform(transform: Transform3D, child_frame_id: String) -> void:
 	transform_stamped.header.frame_id = frame_id
 	transform_stamped.child_frame_id = child_frame_id
 	self.publish_transform_stamped(tf_topic, transform_stamped)
+	
+func publish_joy_data(buttons: PackedInt64Array, axis: PackedFloat64Array, frame_id: String) -> void:
+	var joy_msg = RosJoy.new()
+	joy_msg.header = RosHeader.new()
+	joy_msg.buttons = buttons
+	joy_msg.axis = axis
+	joy_msg.header.frame_id = frame_id

@@ -22,13 +22,11 @@ script = ExtResource("1_onf03")
 tracker = &"left_hand"
 script = ExtResource("2_5gmwh")
 ros_node = NodePath("../../RosNode")
-frame_id = "left_hand"
 
 [node name="RightHand" type="XRController3D" parent="XROrigin3D" node_paths=PackedStringArray("ros_node")]
 tracker = &"right_hand"
 script = ExtResource("2_5gmwh")
 ros_node = NodePath("../../RosNode")
-frame_id = "right_hand"
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 
