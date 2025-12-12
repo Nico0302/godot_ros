@@ -13,5 +13,7 @@ godot-cpp/
 # For the generated extension api json file from godot
 extension_api.json
 
+compile_commands.json
+
 # Godot files
 demo/.godot/

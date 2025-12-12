@@ -2,12 +2,15 @@
 import os
 import sys
 from pathlib import Path
+
 ros_distro = os.environ.get("ROS_DISTRO", "rolling")
 cpp_version = "-std=c++17"
 
 ros_dir = "/opt/ros/" + ros_distro
 
-env = Environment()
+env = Environment(COMPILATIONDB_USE_ABSPATH=True)
+env.Tool("compilation_db")
+env.CompilationDatabase()
 env.SConscript("godot-cpp/SConstruct", "env")
 
 # CacheDir('.cache/scons')
@@ -24,10 +27,13 @@ env.SConscript("godot-cpp/SConstruct", "env")
 env.Append(CPPPATH=["src/", "include/"])
 sources = Glob("src/*.cpp")
 
+
 def getSubDirs(base_path: str, with_base_path: bool = True):
     if not base_path.endswith("/"):
         base_path += "/"
-    sub_dirs = [name for name in os.listdir(base_path) if os.path.isdir(base_path + name)]
+    sub_dirs = [
+        name for name in os.listdir(base_path) if os.path.isdir(base_path + name)
+    ]
     if with_base_path:
         sub_dirs = [f"{base_path}/{name}" for name in sub_dirs]
     return sub_dirs
@@ -43,6 +49,7 @@ def getLibNames(base_path: str):
         if name.endswith(".so") or name.endswith(".a")
     ]
     return lib_dirs
+
 
 ros_includes = getSubDirs(ros_dir + "/include")
 ros_lib_path = ros_dir + "/lib"
@@ -64,7 +71,9 @@ if env["platform"] == "macos":
 elif env["platform"] == "ios":
     if env["ios_simulator"]:
         library = env.StaticLibrary(
-            "demo/bin/libgodot_ros.{}.{}.simulator.a".format(env["platform"], env["target"]),
+            "demo/bin/libgodot_ros.{}.{}.simulator.a".format(
+                env["platform"], env["target"]
+            ),
             source=sources,
         )
     else:
@@ -78,4 +87,6 @@ else:
         source=sources,
     )
 
-Default(library)
+cc = env.CompilationDatabase("compile_commands.json")
+
+Default(cc, library)
