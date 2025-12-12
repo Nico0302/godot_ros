@@ -7,12 +7,17 @@
 
 #include "std_msgs/msg/string.hpp"
 #include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/msg/joy.hpp"
+
+#include "tf2_ros/transform_broadcaster.h"
+#include "godot_ros/transform_stamped.hpp"
 
 namespace godot {
 
 using SupportedPublisherTypes = std::variant<
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr,
-	rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr
+	rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr,
+	rclcpp::Publisher<sensor_msgs::msg::Joy>::SharedPtr
 >;
 
 
@@ -23,7 +28,10 @@ private:
   // replace rclcpp::Node with your custom node
   std::shared_ptr<rclcpp::Node> m_node = nullptr;
 
-  /// @brief Map of all publishers of any ROS 2 msg type
+  // @brief Shared TransformBroadcaster for TF2
+  std::shared_ptr<tf2_ros::TransformBroadcaster> m_tf_broadcaster = nullptr;
+
+  // @brief Map of all publishers of any ROS 2 msg type
   std::map<String, SupportedPublisherTypes> m_publishers = {};
 
   void assert_rclcpp_node_initialized();
@@ -59,5 +67,7 @@ public:
 /// @brief Include all the template implementations for each data type
 #include "godot_ros/string.tpp"
 #include "godot_ros/image.tpp"
+#include "godot_ros/joy.tpp"
+#include "godot_ros/transform_stamped.tpp"
 
 #endif  // GODOT_ROS__NODE_HPP

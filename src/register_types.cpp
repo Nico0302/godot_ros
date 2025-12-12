@@ -5,6 +5,9 @@
 #include "godot_ros/register_types.hpp"
 #include "godot_ros/scene_tree.hpp"
 #include "godot_ros/node.hpp"
+#include "godot_ros/header.hpp"
+#include "godot_ros/joy.hpp"
+#include "godot_ros/transform_stamped.hpp"
 
 using namespace godot;
 
@@ -15,6 +18,9 @@ void initialize_godot_ros(ModuleInitializationLevel p_level) {
 
 	GDREGISTER_CLASS(RosSceneTree);
 	GDREGISTER_CLASS(RosNode);
+	GDREGISTER_CLASS(RosHeader);
+	GDREGISTER_CLASS(RosJoy);
+	GDREGISTER_CLASS(RosTransformStamped);
 }
 
 void uninitialize_godot_ros(ModuleInitializationLevel p_level) {
