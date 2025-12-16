@@ -25,8 +25,9 @@ func _process(delta: float) -> void:
 		ros_node.publish_transform(SWAP_Y_Z * self.transform, self.tracker)
 		
 	if elapsed_time >= 1.0/joy_update_rate:
-		var buttons: PackedInt64Array = []
+		var buttons: PackedInt32Array = []
 		for input_name in BUTTON_ACTIONS:
-			buttons.append(self.get_input(input_name))
-		var axis: PackedFloat64Array = [self.get_float("trigger"), self.get_float("grip")]
-		ros_node.publish_joy_data(buttons, axis,  self.tracker)
+			var input = self.get_input(input_name)
+			buttons.append(1 if input else 0)
+		var axes: PackedFloat32Array = [self.get_float("trigger"), self.get_float("grip")]
+		ros_node.publish_joy_data(buttons, axes, self.tracker)
