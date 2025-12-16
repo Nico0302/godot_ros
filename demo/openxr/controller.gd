@@ -11,7 +11,7 @@ extends XRController3D
 var elapsed_time = 0
 
 const BUTTON_ACTIONS = ["trigger_click", "trigger_touch", "grip_click", "primary_click", "primary_touch", "secondary_click", "secondary_touch", "menu_button", "select_button"]
-const SWAP_Y_Z = Transform3D(Vector3(1, 0, 0), Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(0, 0, 0))
+const TRANSFORM = Transform3D(Vector3(0, -1, 0), Vector3(0, 0, 1), Vector3(-1, 0, 0), Vector3(0, 0, 0))
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,7 +22,7 @@ func _process(delta: float) -> void:
 	elapsed_time += delta
 	
 	if elapsed_time >= 1.0/tf_update_rate:
-		ros_node.publish_transform(SWAP_Y_Z * self.transform, self.tracker)
+		ros_node.publish_transform(TRANSFORM * self.transform, self.tracker)
 		
 	if elapsed_time >= 1.0/joy_update_rate:
 		var buttons: PackedInt32Array = []
