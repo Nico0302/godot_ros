@@ -18,7 +18,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	elapsed_time += delta
 	
 	if elapsed_time >= 1.0/tf_update_rate:
