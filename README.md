@@ -26,6 +26,8 @@ data types and ROS 2 data types.
 ## Publish (Godot type to ROS 2 messages)
 
 - [x] `Godot::String` => `std_msgs::msg::String`
+- [x] `Godot::RosTransformStamped` => `geometry_msgs::msg::transform_stamped`
+- [x] `Godot::RosJoy` => `sensor_msgs::msg::joy`
 - [ ] `Godot::Image` => `sensor_msgs::msg::Image`
 - [ ] `Godot::Array` => `sensor_msgs::msg::PointCloud`
 
@@ -69,6 +71,26 @@ something like:
 
 ```shell
 Error: librcutils.so: cannot open shared object file: No such file or directory.
+```
+
+## Debug Build
+
+Install scons (`sudo apt install scons`) and run
+
+```shell
+scons
+```
+
+In the project dir after **sourcing you ros distro**
+
+## Release Build
+
+```shell
+scons target=template_release
+```
+
+```shell
+godot --headless --path ./demo --export-release "Linux" ./build
 ```
 
 ### Determining dependencies of godot_ros extension

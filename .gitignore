@@ -17,3 +17,5 @@ compile_commands.json
 
 # Godot files
 demo/.godot/
+
+build/
