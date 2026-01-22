@@ -10,6 +10,8 @@ extends XRController3D
 
 var elapsed_time = 0
 
+var last_published_q: Quaternion = Quaternion.IDENTITY
+
 const BUTTON_ACTIONS = ["trigger_click", "trigger_touch", "grip_click", "primary_click", "primary_touch", "secondary_click", "secondary_touch", "menu_button", "select_button"]
 const TRANSFORM = Transform3D(Vector3(0, -1, 0), Vector3(0, 0, 1), Vector3(-1, 0, 0), Vector3(0, 0, 0))
 
@@ -22,7 +24,20 @@ func _physics_process(delta: float) -> void:
 	elapsed_time += delta
 	
 	if elapsed_time >= 1.0/tf_update_rate:
-		ros_node.publish_transform(TRANSFORM * self.transform, self.tracker)
+		var final_tx = TRANSFORM * self.transform
+		var current_q = final_tx.basis.get_rotation_quaternion()
+		
+		# Check the dot product between current and previous quaternion.
+		# If it's negative, the quaternion has flipped to the opposite representation.
+		if last_published_q.dot(current_q) < 0:
+			current_q = -current_q
+			
+		# Update our tracker
+		last_published_q = current_q
+		
+		# Reconstruct the "smooth" transform for ROS
+		var smooth_tx = Transform3D(Basis(current_q), final_tx.origin)
+		ros_node.publish_transform(smooth_tx, self.tracker)
 		
 	if elapsed_time >= 1.0/joy_update_rate:
 		var buttons: PackedInt32Array = []

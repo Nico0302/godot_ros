@@ -22,7 +22,7 @@ project/assembly_name="demo"
 
 [physics]
 
-common/physics_ticks_per_second=100
+common/physics_ticks_per_second=90
 
 [rendering]
 

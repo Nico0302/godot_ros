@@ -8,6 +8,7 @@
 #include "godot_ros/header.hpp"
 #include "godot_ros/joy.hpp"
 #include "godot_ros/transform_stamped.hpp"
+#include "godot_ros/pose_stamped.hpp"
 
 using namespace godot;
 
@@ -21,6 +22,7 @@ void initialize_godot_ros(ModuleInitializationLevel p_level) {
 	GDREGISTER_CLASS(RosHeader);
 	GDREGISTER_CLASS(RosJoy);
 	GDREGISTER_CLASS(RosTransformStamped);
+	GDREGISTER_CLASS(RosPoseStamped);
 }
 
 void uninitialize_godot_ros(ModuleInitializationLevel p_level) {
