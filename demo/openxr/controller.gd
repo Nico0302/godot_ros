@@ -17,29 +17,27 @@ const TRANSFORM = Transform3D(Vector3(0, -1, 0), Vector3(0, 0, 1), Vector3(-1, 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	elapsed_time += delta
 	
-	if elapsed_time >= 1.0/tf_update_rate:
-		var final_tx = TRANSFORM * self.transform
-		var current_q = final_tx.basis.get_rotation_quaternion()
+	if elapsed_time >= 1.0 / tf_update_rate:
+		var current_q = self.quaternion
 		
 		# Check the dot product between current and previous quaternion.
 		# If it's negative, the quaternion has flipped to the opposite representation.
 		if last_published_q.dot(current_q) < 0:
-			current_q = -current_q
+			current_q = - current_q
 			
 		# Update our tracker
 		last_published_q = current_q
 		
 		# Reconstruct the "smooth" transform for ROS
-		var smooth_tx = Transform3D(Basis(current_q), final_tx.origin)
-		ros_node.publish_transform(smooth_tx, self.tracker)
+		ros_node.publish_pose(Vector3(self.position.z, self.position.x, self.position.y), Quaternion(current_q.z, current_q.x, current_q.y, current_q.w), self.tracker)
 		
-	if elapsed_time >= 1.0/joy_update_rate:
+	if elapsed_time >= 1.0 / joy_update_rate:
 		var buttons: PackedInt32Array = []
 		for input_name in BUTTON_ACTIONS:
 			var input = self.get_input(input_name)

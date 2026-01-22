@@ -19,6 +19,9 @@ void RosNode::_bind_methods() {
 
   ClassDB::bind_method(D_METHOD("create_transform_stamped_publisher"), &RosNode::create_publisher<Ref<RosTransformStamped>>);
   ClassDB::bind_method(D_METHOD("publish_transform_stamped"), &RosNode::publish<Ref<RosTransformStamped>>);
+
+  ClassDB::bind_method(D_METHOD("create_pose_stamped_publisher"), &RosNode::create_publisher<Ref<RosPoseStamped>>);
+  ClassDB::bind_method(D_METHOD("publish_pose_stamped"), &RosNode::publish<Ref<RosPoseStamped>>);
 }
 
 void RosNode::init_rclcpp_node(const String & node_name) {

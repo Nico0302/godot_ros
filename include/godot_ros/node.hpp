@@ -8,6 +8,7 @@
 #include "std_msgs/msg/string.hpp"
 #include "sensor_msgs/msg/image.hpp"
 #include "sensor_msgs/msg/joy.hpp"
+#include "geometry_msgs/msg/pose_stamped.hpp"
 
 #include "tf2_ros/transform_broadcaster.h"
 #include "godot_ros/transform_stamped.hpp"
@@ -17,7 +18,8 @@ namespace godot {
 using SupportedPublisherTypes = std::variant<
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr,
 	rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr,
-	rclcpp::Publisher<sensor_msgs::msg::Joy>::SharedPtr
+	rclcpp::Publisher<sensor_msgs::msg::Joy>::SharedPtr,
+	rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr
 >;
 
 
@@ -69,5 +71,6 @@ public:
 #include "godot_ros/image.tpp"
 #include "godot_ros/joy.tpp"
 #include "godot_ros/transform_stamped.tpp"
+#include "godot_ros/pose_stamped.tpp"
 
 #endif  // GODOT_ROS__NODE_HPP

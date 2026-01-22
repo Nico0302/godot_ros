@@ -10,7 +10,7 @@ void RosPoseStamped::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_pose"), &RosPoseStamped::get_pose);
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "header", PROPERTY_HINT_RESOURCE_TYPE, "RosHeader"), "set_header", "get_header");
-    ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM3D, "pose"), "set_pose", "get_pose");
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "pose", PROPERTY_HINT_RESOURCE_TYPE, "RosPose"), "set_pose", "get_pose");
 }
 
 RosPoseStamped::RosPoseStamped() {
@@ -27,11 +27,11 @@ Ref<RosHeader> RosPoseStamped::get_header() const {
     return header;
 }
 
-void RosPoseStamped::set_pose(const Transform3D &p_pose) {
+void RosPoseStamped::set_pose(const Ref<RosPose> &p_pose) {
     pose = p_pose;
 }
 
-Transform3D RosPoseStamped::get_pose() const {
+Ref<RosPose> RosPoseStamped::get_pose() const {
     return pose;
 }
 

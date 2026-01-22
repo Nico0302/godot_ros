@@ -3,7 +3,9 @@
 
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/variant/transform3d.hpp>
+#include <godot_cpp/variant/transform3d.hpp>
 #include "godot_ros/header.hpp"
+#include "godot_ros/ros_pose.hpp"
 
 namespace godot {
 
@@ -12,7 +14,7 @@ class RosPoseStamped : public Resource {
 
 private:
     Ref<RosHeader> header;
-    Transform3D pose;
+    Ref<RosPose> pose;
 
 protected:
     static void _bind_methods();
@@ -24,8 +26,8 @@ public:
     void set_header(const Ref<RosHeader> &p_header);
     Ref<RosHeader> get_header() const;
 
-    void set_pose(const Transform3D &p_pose);
-    Transform3D get_pose() const;
+    void set_pose(const Ref<RosPose> &p_pose);
+    Ref<RosPose> get_pose() const;
 };
 
 } // namespace godot
